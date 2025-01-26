@@ -12,7 +12,7 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20231202125736_init")]
+    [Migration("20250126105340_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace api.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "9.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -37,10 +37,14 @@ namespace api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("StockId")
+                    b.Property<int?>("StockID")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -49,7 +53,7 @@ namespace api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StockId");
+                    b.HasIndex("StockID");
 
                     b.ToTable("Comments");
                 });
@@ -65,6 +69,9 @@ namespace api.Migrations
                     b.Property<string>("CompanyName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Dividend")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Industry")
                         .IsRequired()
@@ -90,11 +97,11 @@ namespace api.Migrations
 
             modelBuilder.Entity("api.Models.Comment", b =>
                 {
-                    b.HasOne("api.Models.Stock", "Stock")
+                    b.HasOne("api.Models.Stock", "stock")
                         .WithMany("Comments")
-                        .HasForeignKey("StockId");
+                        .HasForeignKey("StockID");
 
-                    b.Navigation("Stock");
+                    b.Navigation("stock");
                 });
 
             modelBuilder.Entity("api.Models.Stock", b =>

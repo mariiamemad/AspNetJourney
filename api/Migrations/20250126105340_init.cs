@@ -20,6 +20,7 @@ namespace api.Migrations
                     Symbol = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CompanyName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Purchase = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Dividend = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     LastDiv = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Industry = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MarketCap = table.Column<long>(type: "bigint", nullable: false)
@@ -35,25 +36,26 @@ namespace api.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    StockID = table.Column<int>(type: "int", nullable: true),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    StockId = table.Column<int>(type: "int", nullable: true)
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Comments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comments_Stocks_StockId",
-                        column: x => x.StockId,
+                        name: "FK_Comments_Stocks_StockID",
+                        column: x => x.StockID,
                         principalTable: "Stocks",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_StockId",
+                name: "IX_Comments_StockID",
                 table: "Comments",
-                column: "StockId");
+                column: "StockID");
         }
 
         /// <inheritdoc />
