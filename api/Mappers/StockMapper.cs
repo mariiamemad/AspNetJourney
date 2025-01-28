@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using api.Dtos.Comment;
 using api.Dtos.Stock;
 using api.Models;
 
@@ -20,7 +21,8 @@ namespace api.Mappers
                 Purchase = stockModel.Purchase,
                 LastDiv = stockModel.LastDiv,
                 Industry = stockModel.Industry,
-                MarketCap = stockModel.MarketCap
+                MarketCap = stockModel.MarketCap,
+                Comments = stockModel.Comments.Select(c => (CommentDto)c.ToCommentDto()).ToList()            
             };
         }
         public static Stock ToStockFromCreateDto(this CreateStockRequestDto stockDto)
